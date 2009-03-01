@@ -1,0 +1,42 @@
+.clearboth{
+	clear:both;
+	font-size:0px;
+	line-height:0px;
+	height:0px;
+	margin:0px !important;
+	padding:0px !important;
+}
+#TwitterTitle h2{
+	float:left;
+}
+#TwitterTitle a{
+	float:right;
+}
+.TwitterTimeLine{
+	list-style:none;
+	list-style-type:none;
+}
+	.TwitterTimeLine li{
+		border-bottom:dashed 1px #CCCCCC;
+		margin:4px 0px;
+		padding:4px 0px;
+	}
+		.TwitterTimeLine li .avatar{
+			width:50px;
+			height:50px;
+			margin:2px;
+			float:left;
+		}
+.Followers{
+	list-style:none;
+	list-style-type:none;
+}
+	.Followers li{
+		float:left;
+		margin:0px;
+	}
+		.Followers li img{
+			padding:2px;
+			margin:1px;
+			border:1px solid #999999;
+		}
