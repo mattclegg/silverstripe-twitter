@@ -1,34 +1,34 @@
 <?php
 
-require_once("TwitterAPI.php");
+require_once('TwitterAPI.php');
 
 class TwitterPage extends Page{
 	
 	static $db = array(
-		"TwitterUsername" => "Varchar",
-		"TwitterPassword" => "Varchar",
-		"TwitterURL" => "Varchar",
-		"ShowUserTimeLine" => "Boolean",
-		"ShowPublicTimeLine" => "Boolean",
-		"ShowFriendsTimeLine" => "Boolean",
-		"ShowFollowersAvatar" => "Boolean",
-		"ShowFriendsAvatar" => "Boolean",
-		"HowManyFollowers" => "Int",
-		"HowManyFriends" => "Int",
-		"HowManyStatuses" => "Int",
-		"SinceWhen" => "Text"	
+		'TwitterUsername' => 'Varchar',
+		'TwitterPassword' => 'Varchar',
+		'TwitterURL' => 'Varchar',
+		'ShowUserTimeLine' => 'Boolean',
+		'ShowPublicTimeLine' => 'Boolean',
+		'ShowFriendsTimeLine' => 'Boolean',
+		'ShowFollowersAvatar' => 'Boolean',
+		'ShowFriendsAvatar' => 'Boolean',
+		'HowManyFollowers' => 'Int',
+		'HowManyFriends' => 'Int',
+		'HowManyStatuses' => 'Int',
+		'SinceWhen' => 'Text'	
 	);
 
 	static $defaults = array(
-		"ShowUserTimeLine" => "0",
-		"ShowPublicTimeLine" => "0",
-		"ShowFriendsTimeLine" => "1",
-		"HowManyFollowers" => 15,
-		"HowManyFriends" => 15,
-		"HowManyStatuses" => 20,
-		"ShowFollowersAvatar" => "1",
-		"ShowFriendsAvatar" => "1",
-		"SinceWhen" => 0
+		'ShowUserTimeLine' => '0',
+		'ShowPublicTimeLine' => '0',
+		'ShowFriendsTimeLine' => '1',
+		'HowManyFollowers' => 15,
+		'HowManyFriends' => 15,
+		'HowManyStatuses' => 20,
+		'ShowFollowersAvatar' => '1',
+		'ShowFriendsAvatar' => '1',
+		'SinceWhen' => 0
 	);
 	
 	function getCMSFields(){
@@ -76,7 +76,7 @@ class TwitterPage_Controller extends Page_Controller{
 	function Followers(){
 		if($this->checkCredentials()){
 			$twitterApi = new TwitterAPI($this->TwitterUsername, $this->TwitterPassword);
-			$xml = $twitterApi->doCall("http://twitter.com/statuses/followers/".$this->TwitterUsername.".xml", true);
+			$xml = $twitterApi->doCall('http://twitter.com/statuses/followers/'.$this->TwitterUsername.'.xml', true);
 			if($xml){
 				// init var
 				$followers = array();
@@ -93,9 +93,9 @@ class TwitterPage_Controller extends Page_Controller{
 					$output->push(
 						new ArrayData(
 							array(
-								"Name" => $follower['name'],
-								"URL" => $follower['url'],
-								"Avatar" => $follower['profile_image_url']
+								'Name' => $follower['name'],
+								'URL' => $follower['url'],
+								'Avatar' => $follower['profile_image_url']
 							)
 						)
 					);
@@ -120,7 +120,7 @@ class TwitterPage_Controller extends Page_Controller{
 	function Friends(){
 		if($this->checkCredentials()){
 			$twitterApi = new TwitterAPI($this->TwitterUsername, $this->TwitterPassword);
-			$xml = $twitterApi->doCall("http://twitter.com/statuses/friends/".$this->TwitterUsername.".xml", true);
+			$xml = $twitterApi->doCall('http://twitter.com/statuses/friends/'.$this->TwitterUsername.'.xml', true);
 			if($xml){
 				// init var
 				$followers = array();
@@ -137,9 +137,9 @@ class TwitterPage_Controller extends Page_Controller{
 					$output->push(
 						new ArrayData(
 							array(
-								"Name" => $follower['name'],
-								"URL" => $follower['url'],
-								"Avatar" => $follower['profile_image_url']
+								'Name' => $follower['name'],
+								'URL' => $follower['url'],
+								'Avatar' => $follower['profile_image_url']
 							)
 						)
 					);
@@ -171,14 +171,14 @@ class TwitterPage_Controller extends Page_Controller{
 			$since = null;
 			$stamp = 0;			
 			if($this->SinceWhen){
-				$time = explode("-", $this->SinceWhen);
+				$time = explode('-', $this->SinceWhen);
 				$stamp = mktime(0,0,0,$time[1], $time[2], $time[0]);
 			}
 			if($stamp)
 				$params['scince'] = $stamp;
 			
 			$twitterApi = new TwitterAPI($this->TwitterUsername, $this->TwitterPassword);
-			$xml = $twitterApi->doCall("http://twitter.com/statuses/user_timeline/".$this->TwitterUsername.".xml", true, $params);
+			$xml = $twitterApi->doCall('http://twitter.com/statuses/user_timeline/'.$this->TwitterUsername.'.xml', true, $params);
 			if($xml){
 				// init var
 				$msgs = array();
@@ -189,11 +189,11 @@ class TwitterPage_Controller extends Page_Controller{
 				$output = new DataObjectSet();
 				foreach($msgs as $status){
 					$output->push(new ArrayData(array(
-						"Name" => $status['user']['name'],
-						"URL" => $status['user']['url'],
-						"Avatar" => $status['user']['profile_image_url'],
-						"Text" => $this->checkForURLs($status['text']),
-						"Time" => $status['created_at'],
+						'Name' => $status['user']['name'],
+						'URL' => $status['user']['url'],
+						'Avatar' => $status['user']['profile_image_url'],
+						'Text' => $this->checkForURLs($status['text']),
+						'Time' => $status['created_at'],
 					)));
 				}
 				return $output;
@@ -217,14 +217,14 @@ class TwitterPage_Controller extends Page_Controller{
 			$since = null;
 			$stamp = 0;			
 			if($this->SinceWhen){
-				$time = explode("-", $this->SinceWhen);
+				$time = explode('-', $this->SinceWhen);
 				$stamp = mktime(0,0,0,$time[1], $time[2], $time[0]);
 			}
 			if($stamp)
 				$params['since'] = $stamp;
 				
 			$twitterApi = new TwitterAPI($this->TwitterUsername, $this->TwitterPassword);
-			$xml = $twitterApi->doCall("http://twitter.com/statuses/public_timeline/".$this->TwitterUsername.".xml", true, $params);
+			$xml = $twitterApi->doCall('http://twitter.com/statuses/public_timeline/'.$this->TwitterUsername.'.xml', true, $params);
 			if($xml){
 				// init var
 				$msgs = array();
@@ -241,11 +241,11 @@ class TwitterPage_Controller extends Page_Controller{
 					if($count > $this->HowManyStatuses)
 						break;
 					$output->push(new ArrayData(array(
-						"Name" => $status['user']['name'],
-						"URL" => $status['user']['url'],
-						"Avatar" => $status['user']['profile_image_url'],
-						"Text" => $this->checkForURLs($status['text']),
-						"Time" => $status['created_at'],
+						'Name' => $status['user']['name'],
+						'URL' => $status['user']['url'],
+						'Avatar' => $status['user']['profile_image_url'],
+						'Text' => $this->checkForURLs($status['text']),
+						'Time' => $status['created_at'],
 					)));
 
 				}
@@ -274,14 +274,14 @@ class TwitterPage_Controller extends Page_Controller{
 			$since = null;
 			$stamp = 0;			
 			if($this->SinceWhen){
-				$time = explode("-", $this->SinceWhen);
+				$time = explode('-', $this->SinceWhen);
 				$stamp = mktime(0,0,0,$time[1], $time[2], $time[0]);
 			}
 			if($stamp)
 				$params['since'] = $stamp;
 				
 			$twitterApi = new TwitterAPI($this->TwitterUsername, $this->TwitterPassword);
-			$xml = $twitterApi->doCall("http://twitter.com/statuses/friends_timeline/".$this->TwitterUsername.".xml", true, $params);
+			$xml = $twitterApi->doCall('http://twitter.com/statuses/friends_timeline/'.$this->TwitterUsername.'.xml', true, $params);
 			if($xml){
 				// init var
 				$msgs = array();
@@ -292,11 +292,11 @@ class TwitterPage_Controller extends Page_Controller{
 				$output = new DataObjectSet();
 				foreach($msgs as $status){
 					$output->push(new ArrayData(array(
-						"Name" => $status['user']['name'],
-						"URL" => $status['user']['url'],
-						"Avatar" => $status['user']['profile_image_url'],
-						"Text" => $this->checkForURLs($status['text']),
-						"Time" => $status['created_at'],
+						'Name' => $status['user']['name'],
+						'URL' => $status['user']['url'],
+						'Avatar' => $status['user']['profile_image_url'],
+						'Text' => $this->checkForURLs($status['text']),
+						'Time' => $status['created_at'],
 					)));
 				}
 				return $output;
@@ -315,18 +315,18 @@ class TwitterPage_Controller extends Page_Controller{
 	 */
 	 function checkForURLs($text){
 	 	if($text){
-			$words = explode(" ",$text);
-			$html = "";
+			$words = explode(' ',$text);
+			$html = '';
 			
 			foreach($words as $word){
-				if(preg_match("/^http/", $word)){
-					$htmlword = "<a href='$word' target='_blank'>$word</a>";
+				if(preg_match('/^http/', $word)){
+					$htmlword = '<a href=\'' . $word . '\' target=\'_blank\'>' . $word . '</a>';
 				}
-				else if(strcmp("$word", "&") == 0)
-					$htmlword = "&amp;";
+				else if(strcmp('$word', '&') == 0)
+					$htmlword = '&amp;';
 				else
 					$htmlword = $word;
-				$html .= "$htmlword ";
+				$html .= $htmlword . ' ';
 			}
 			return $html;
 		}
