@@ -16,7 +16,7 @@ class TwitterPage extends Page{
 		'HowManyFollowers' => 'Int',
 		'HowManyFriends' => 'Int',
 		'HowManyStatuses' => 'Int',
-		'SinceWhen' => 'Text'	
+		'SinceWhen' => 'Date'	
 	);
 
 	static $defaults = array(
@@ -27,8 +27,7 @@ class TwitterPage extends Page{
 		'HowManyFriends' => 15,
 		'HowManyStatuses' => 20,
 		'ShowFollowersAvatar' => '1',
-		'ShowFriendsAvatar' => '1',
-		'SinceWhen' => 0
+		'ShowFriendsAvatar' => '1'
 	);
 	
 	function getCMSFields(){
@@ -38,7 +37,7 @@ class TwitterPage extends Page{
 		$fields->addFieldToTab('Root.Content.Twitter', new TextField('TwitterUsername','Your twitter username'));
 		$fields->addFieldToTab('Root.Content.Twitter', new PasswordField('TwitterPassword','Your twitter password'));
 		$fields->addFieldToTab('Root.Content.Twitter', new TextField('TwitterURL','Your twitter url'));
-		$fields->addFieldToTab('Root.Content.Twitter', new CalendarDateField('SinceWhen','Since when do you need to show the messages, this will show the messages which are up to 24 hours old and created after the date, leave it blank if you dont want to use this feature'));
+		$fields->addFieldToTab('Root.Content.Twitter', new DateField('SinceWhen','Since when do you need to show the messages, this will show the messages which are up to 24 hours old and created after the date, leave it blank if you dont want to use this feature'));
 
 
 		$fields->addFieldToTab('Root.Content.Twitter', new HeaderField($title = 'Time Line Controllers',$headingLevel = 3));
@@ -171,8 +170,7 @@ class TwitterPage_Controller extends Page_Controller{
 			$since = null;
 			$stamp = 0;			
 			if($this->SinceWhen){
-				$time = explode('-', $this->SinceWhen);
-				$stamp = mktime(0,0,0,$time[1], $time[2], $time[0]);
+				$stamp = mktime(0,0,0,$this->SinceWhen->Format("m"), $this->SinceWhen->Format("d"), $this->SinceWhen->Format("Y"));
 			}
 			if($stamp)
 				$params['scince'] = $stamp;
@@ -217,8 +215,7 @@ class TwitterPage_Controller extends Page_Controller{
 			$since = null;
 			$stamp = 0;			
 			if($this->SinceWhen){
-				$time = explode('-', $this->SinceWhen);
-				$stamp = mktime(0,0,0,$time[1], $time[2], $time[0]);
+				$stamp = mktime(0,0,0,$this->SinceWhen->Format("m"), $this->SinceWhen->Format("d"), $this->SinceWhen->Format("Y"));
 			}
 			if($stamp)
 				$params['since'] = $stamp;
@@ -274,8 +271,7 @@ class TwitterPage_Controller extends Page_Controller{
 			$since = null;
 			$stamp = 0;			
 			if($this->SinceWhen){
-				$time = explode('-', $this->SinceWhen);
-				$stamp = mktime(0,0,0,$time[1], $time[2], $time[0]);
+				$stamp = mktime(0,0,0,$this->SinceWhen->Format("m"), $this->SinceWhen->Format("d"), $this->SinceWhen->Format("Y"));
 			}
 			if($stamp)
 				$params['since'] = $stamp;

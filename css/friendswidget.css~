@@ -1,9 +1,0 @@
-.widgetThumb{
-	float:left;
-	margin-right:5px;
-}
-.widgetThumb img{
-	background:#CCCCCC;
-	padding:3px;
-	border:1px solid #666666;
-}
