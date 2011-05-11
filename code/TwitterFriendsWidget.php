@@ -3,16 +3,16 @@
 // YahooWidgets Widget 0.0.1 for the SilverStripe Blog Module
 // 01.03.2009
 // By nivanka@whynotonline.com
-// Save this and TwitterFollowersWidget.ss to twitter_widget/ and run "db/build".
+// Save this and TwitterFriendsWidget.ss to twitter_widget/ and run "db/build".
 
 require_once('TwitterAPI.php');
 
-class TwitterFollowersWidget extends Widget{
+class TwitterFriendsWidget extends Widget{
 	
 	//The widget info
-	static $title = 'My Twitter Followers';
-	static $cmsTitle = 'Twitter Followers Widgets';
-	static $description = 'This widget displays your twitter followers on any of your webpages. (you need to have a twitter page setup in order to get this widget working)';
+	static $title = 'My Twitter Friends';
+	static $cmsTitle = 'Twitter Friends Widgets';
+	static $description = 'This widget displays your twitter friends on any of your webpages. (you need to have a twitter page setup in order to get this widget working)';
 
 	static $db = array(
 		'ShowAvatar' => 'Boolean',
@@ -28,8 +28,8 @@ class TwitterFollowersWidget extends Widget{
 	 */
 	function getCMSFields(){
 		return new FieldSet(
-			new DropdownField('ShowAvatar', 'Show your follower\'s avatar.', array('0' => 'NO', '1'=>'Yes')),
-			new NumericField('NumberOfFriends', 'Number of followers you need to show on the page.')
+			new DropdownField('ShowAvatar', 'Show your friends avatar.', array('0' => 'NO', '1'=>'Yes')),
+			new NumericField('NumberOfFriends', 'Number of friends you need to show on the page.')
 		);
 	}
 
@@ -37,12 +37,12 @@ class TwitterFollowersWidget extends Widget{
 	/**
 	 * Get the friends of the user
 	 */
-	function Followers(){
+	function Friends(){
 		Requirements::css('twitter/css/friendswidget.css');
 		$twitterPage = DataObject::get_one('TwitterPage');
 		if($twitterPage->TwitterUsername && $twitterPage->TwitterPassword){
 			$twitterApi = new TwitterAPI($twitterPage->TwitterUsername, $twitterPage->TwitterPassword);
-			$xml = $twitterApi->doCall('http://twitter.com/statuses/followers/'.$twitterPage->TwitterUsername.'.xml', true);
+			$xml = $twitterApi->doCall('http://twitter.com/statuses/friends/'.$twitterPage->TwitterUsername.'.xml', true);
 			if($xml){
 				// init var
 				$followers = array();
@@ -62,7 +62,7 @@ class TwitterFollowersWidget extends Widget{
 								'Name' => $follower['name'],
 								'URL' => $follower['url'],
 								'Avatar' => $follower['profile_image_url'],
-								"Location" => $follower['location']
+								'Location' => $follower['location']
 							)
 						)
 					);
