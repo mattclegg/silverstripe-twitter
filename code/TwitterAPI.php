@@ -27,20 +27,18 @@ class TwitterAPI extends RestfulService{
 	 * This functions does the real call, and it returns and XML object.
 	 */
 	function doCall($url = null, $requireAuth = false,$params = null){
-		try{
+		
 			$twitter = new RestfulService( $url );
 			if($requireAuth)
 				$twitter->basicAuth(self::$username, self::$password);
 			if($params)
 				$twitter->setQueryString($params);
-			$conn = $twitter->connect('');
 			
-			$xml = @simplexml_load_string($conn);
-			if($xml == false)
-				return false;
-			else return $xml;
-		}
-		catch(Exception $e){
+		if($request = $twitter->request()){
+			Debug::show($requireAuth);
+			Debug::show($request);
+			return $request->simpleXML();
+		}else{
 			return false;
 		}
 	}
